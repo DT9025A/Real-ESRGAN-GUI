@@ -119,12 +119,20 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 进程退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit(object sender, EventArgs e)
         {
             process = null;
             exitEventHandler(null, null);
         }
 
+        /// <summary>
+        /// 停止当前进程
+        /// </summary>
         public void StopProcess()
         {
             if (process != null)

@@ -95,11 +95,21 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 文件名加上processed
+        /// </summary>
+        /// <param name="path">要处理的文件路径</param>
+        /// <returns>处理后的文件路径</returns>
         private String ProcessFileName(String path)
         {
             return path.Substring(0, path.LastIndexOf(".")) + "(processed)" + path.Substring(path.LastIndexOf("."));
         }
 
+        /// <summary>
+        /// 窗口载入 初始化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form_Main_Load(object sender, EventArgs e)
         {
             ArrayList files, model, param;
@@ -133,6 +143,11 @@ namespace lpgui
             taskProcess = new TaskProcess(taskConfig, new DataReceivedEventHandler(Proc_OutputDataReceived), new EventHandler(Proc_Exited));
         }
 
+        /// <summary>
+        /// 拖放进入 配置光标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox_Input_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -145,6 +160,11 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 拖放 处理拖放数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox_Input_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -199,6 +219,11 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 开始/停止
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Start_Click(object sender, EventArgs e)
         {
             if (button_Start.Text.Equals("停止"))
@@ -241,6 +266,11 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 当前处理进程退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Proc_Exited(object sender, EventArgs e)
         {
             if (fileList.Count <= fileIndex)
@@ -268,17 +298,53 @@ namespace lpgui
             }
         }
 
+        /// <summary>
+        /// 处理进程输出数据处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)
                 InfoUpdate(e.Data);
         }
 
+        /// <summary>
+        /// 点击链接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/xinntao/Real-ESRGAN");
         }
 
+        /// <summary>
+        /// 载入设置窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_Config_Click(object sender, EventArgs e)
+        {
+            FormConfig form = new FormConfig(ref taskConfig);
+            form.ShowDialog(this);
+        }
+
+        /// <summary>
+        /// 改变处理模型
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBox_Model_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            taskConfig.Model = comboBox_Model.SelectedItem.ToString();
+        }
+
+        /// <summary>
+        /// 打开文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_OpenFile_Click(object sender, EventArgs e)
         {
             MyDataObject dataObject = new MyDataObject();
@@ -289,17 +355,11 @@ namespace lpgui
             }
         }
 
-        private void button_Config_Click(object sender, EventArgs e)
-        {
-            FormConfig form = new FormConfig(ref taskConfig);
-            form.ShowDialog(this);
-        }
-
-        private void comboBox_Model_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            taskConfig.Model = comboBox_Model.SelectedItem.ToString();
-        }
-
+        /// <summary>
+        /// 打开目录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_OpenFolder_Click(object sender, EventArgs e)
         {
             MyDataObject dataObject = new MyDataObject();
