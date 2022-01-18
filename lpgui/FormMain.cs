@@ -112,12 +112,13 @@ namespace lpgui
         /// <param name="e"></param>
         private void Form_Main_Load(object sender, EventArgs e)
         {
-            ArrayList files, model, param;
+            ArrayList files, model, param, accepted;
             String name;
 
             files = new ArrayList(new DirectoryInfo(Directory.GetCurrentDirectory() + "\\models").GetFiles());
             model = new ArrayList();
             param = new ArrayList();
+            accepted = new ArrayList();
             foreach (FileInfo item in files)
             {
                 name = item.Name.Split(new char[] { '.' }, 2)[0];
@@ -132,13 +133,13 @@ namespace lpgui
             }
             foreach (String item in model)
             {
-                if (!param.Contains(item))
+                if (param.Contains(item))
                 {
-                    model.Remove(item);
+                    accepted.Add(item);
                 }
             }
             comboBox_Model.Items.Clear();
-            comboBox_Model.Items.AddRange(model.ToArray());
+            comboBox_Model.Items.AddRange(accepted.ToArray());
             comboBox_Model.SelectedIndex = 0;
             taskProcess = new TaskProcess(taskConfig, new DataReceivedEventHandler(Proc_OutputDataReceived), new EventHandler(Proc_Exited));
         }
